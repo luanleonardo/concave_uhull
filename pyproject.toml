@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "concave_uhull"
 version = "0.1.0"
-description = ""
-authors = ["Luan <luan.moraes@loggi.com>"]
+description = "A simple (but not simpler) algorithm to obtain the concave hull using an alpha shape algorithm."
+readme = "README_pypi.rst"
+authors = ["Luan <llvdmoraes@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
