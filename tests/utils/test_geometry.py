@@ -29,6 +29,6 @@ def test_haversine_distance():
     bsas = (-58.5166646, -34.83333)
     paris = (2.53844117956, 49.0083899664)
     expected_result_in_km = 11099.54035582
-    result_in_km = haversine_distance(bsas, paris) / 1000.0
+    result_in_km = haversine_distance(bsas, paris)
 
     assert np.isclose(result_in_km, expected_result_in_km, atol=1e-4)

@@ -24,7 +24,7 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
 
     Returns
     -------
-        Haversine distance between coordinates in meters.
+        Haversine distance between coordinates in kilometers.
 
     References
     ----------
@@ -34,8 +34,8 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
     lon1, lat1 = coord1
     lon2, lat2 = coord2
 
-    # radius of Earth in meters
-    radius_earth = 6371000.0
+    # radius of Earth in kilometers
+    radius_earth = 6371000.0 / 1000.0
 
     # Haversine Formula
     phi_1 = np.radians(lat1)
@@ -47,5 +47,5 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
     )
     c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1.0 - a))
 
-    # output distance in meters
+    # output distance in kilometers
     return radius_earth * c
