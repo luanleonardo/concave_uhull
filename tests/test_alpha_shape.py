@@ -1,4 +1,4 @@
-from alpha_shape import __version__
+from concave_uhull import __version__
 
 
 def test_version():

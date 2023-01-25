@@ -1,7 +1,7 @@
 from collections import defaultdict
 from heapq import heappop, heappush
 
-from alpha_shape.utils.geometry import haversine_distance
+from concave_uhull.utils.geometry import haversine_distance
 
 
 def add_edge(

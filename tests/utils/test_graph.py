@@ -2,8 +2,8 @@ from collections import defaultdict
 
 import pytest
 
-from alpha_shape.utils.geometry import euclidean_distance
-from alpha_shape.utils.graph import add_edge, remove_edge, shortest_path
+from concave_uhull.utils.geometry import euclidean_distance
+from concave_uhull.utils.graph import add_edge, remove_edge, shortest_path
 
 
 @pytest.fixture

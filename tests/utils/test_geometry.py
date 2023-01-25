@@ -1,6 +1,6 @@
 import numpy as np
 
-from alpha_shape.utils.geometry import euclidean_distance, haversine_distance
+from concave_uhull.utils.geometry import euclidean_distance, haversine_distance
 
 
 def test_euclidean_distance():

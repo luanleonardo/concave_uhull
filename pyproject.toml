@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "alpha_shape"
+name = "concave_uhull"
 version = "0.1.0"
 description = ""
 authors = ["Luan <luan.moraes@loggi.com>"]
