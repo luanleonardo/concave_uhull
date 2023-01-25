@@ -74,15 +74,27 @@ def _dijkstra(graph_adjacency_list, edge_weights, edge_source, edge_target):
 
 
 def shortest_path(graph_adjacency_list, edge_weights, edge_source, edge_target):
+    # assertion about both nodes belong to the graph
+    assert (
+        edge_source in graph_adjacency_list and edge_target in graph_adjacency_list
+    ), "Impossible to find path between nodes that do not belong to the graph"
+
+    # get path cost and predecessors in path
     distances, predecessors = _dijkstra(
         graph_adjacency_list, edge_weights, edge_source, edge_target
     )
-    if len(predecessors) == 0:
-        return []
-    edge_path = [edge_target]
+
+    # assertion about no path connecting the nodes
+    assert distances[edge_target] != float(
+        "inf"
+    ), f"There is no path connecting node {edge_source} to node {edge_target}"
+
+    # get the shortest path
+    path = [edge_target]
     current_edge = predecessors[edge_target]
-    edge_path.append(current_edge)
+    path.append(current_edge)
     while current_edge != edge_source:
         current_edge = predecessors[current_edge]
-        edge_path.append(current_edge)
-    return edge_path[::-1]
+        path.append(current_edge)
+
+    return path[::-1]
