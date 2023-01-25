@@ -8,6 +8,7 @@ from alpha_shape.utils.graph import add_edge, remove_edge, shortest_path
 
 @pytest.fixture
 def square_edges():
+    """TODO"""
     return [
         ((0.0, 0.0), (0.0, 1.0)),
         ((0.0, 1.0), (1.0, 1.0)),
@@ -17,7 +18,7 @@ def square_edges():
 
 
 def test_add_edge(square_edges):
-    """"""
+    """TODO"""
     # create data structure for graph, edge weights and edges
     graph = defaultdict(set)
     weight = defaultdict(dict)
@@ -43,7 +44,7 @@ def test_add_edge(square_edges):
 
 
 def test_add_edge_assertion_error(square_edges):
-    """"""
+    """TODO"""
     # create data structure for graph, edge weights and edges
     graph = defaultdict(set)
     weight = defaultdict(dict)
@@ -71,7 +72,7 @@ def test_add_edge_assertion_error(square_edges):
 
 
 def test_remove_edge(square_edges):
-    """"""
+    """TODO"""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -97,7 +98,7 @@ def test_remove_edge(square_edges):
 
 
 def test_remove_edge_assertion_error(square_edges):
-    """"""
+    """TODO"""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -125,7 +126,7 @@ def test_remove_edge_assertion_error(square_edges):
 
 
 def test_shortest_path(square_edges):
-    """"""
+    """TODO"""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -155,7 +156,7 @@ def test_shortest_path(square_edges):
 
 
 def test_shortest_path_assertion_error(square_edges):
-    """"""
+    """TODO"""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
