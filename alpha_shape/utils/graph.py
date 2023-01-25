@@ -11,6 +11,9 @@ def add_edge(
     edge_target: tuple,
     weight_function=haversine_distance,
 ):
+    """
+    TODO
+    """
     # assertions
     assert (
         edge_target not in graph_adjacency_list[edge_source]
@@ -34,6 +37,9 @@ def remove_edge(
     edge_source: tuple,
     edge_target: tuple,
 ):
+    """
+    TODO
+    """
     # assertions
     assert (
         edge_target in graph_adjacency_list[edge_source]
@@ -52,6 +58,9 @@ def remove_edge(
 
 
 def _dijkstra(graph_adjacency_list, edge_weights, edge_source, edge_target):
+    """
+    TODO
+    """
     nodes = graph_adjacency_list.keys()
     predecessors = {node: None for node in nodes}
     visited = {node: False for node in nodes}
@@ -74,12 +83,15 @@ def _dijkstra(graph_adjacency_list, edge_weights, edge_source, edge_target):
 
 
 def shortest_path(graph_adjacency_list, edge_weights, edge_source, edge_target):
+    """
+    TODO
+    """
     # assertion about both nodes belong to the graph
     assert (
         edge_source in graph_adjacency_list and edge_target in graph_adjacency_list
     ), "Impossible to find path between nodes that do not belong to the graph"
 
-    # get path cost and predecessors in path
+    # get path cost and predecessor nodes using dijkstra's algorithm
     distances, predecessors = _dijkstra(
         graph_adjacency_list, edge_weights, edge_source, edge_target
     )

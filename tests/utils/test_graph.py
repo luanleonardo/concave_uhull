@@ -134,7 +134,7 @@ def test_shortest_path(square_edges):
     for source, target in square_edges:
         add_edge(graph_adjacency_list, edge_weights, source, target, euclidean_distance)
 
-    # get shortest path between nodes
+    # get the shortest path between nodes
     edge_source, edge_target = (0.0, 0.0), (1.0, 0.0)
     path = shortest_path(graph_adjacency_list, edge_weights, edge_source, edge_target)
 
