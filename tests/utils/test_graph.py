@@ -1,20 +1,26 @@
 from collections import defaultdict
 
+import pytest
+
 from alpha_shape.utils.geometry import euclidean_distance
 from alpha_shape.utils.graph import add_edge
 
 
-def test_add_edge():
-    """"""
-    # create data structure for graph, edge weights and edges
-    graph = defaultdict(set)
-    weight = defaultdict(dict)
-    square_edges = [
+@pytest.fixture
+def square_edges():
+    return [
         ((0.0, 0.0), (0.0, 1.0)),
         ((0.0, 1.0), (1.0, 1.0)),
         ((1.0, 1.0), (1.0, 0.0)),
         ((1.0, 0.0), (0.0, 0.0)),
     ]
+
+
+def test_add_edge(square_edges):
+    """"""
+    # create data structure for graph, edge weights and edges
+    graph = defaultdict(set)
+    weight = defaultdict(dict)
 
     # define graph from edges
     for source, target in square_edges:
