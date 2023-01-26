@@ -2,30 +2,26 @@ from typing import Callable, List, Tuple
 
 import numpy as np
 
-from concave_uhull.utils.geometry import haversine_distance
+from concave_uhull.utils.geometry import delaunay_triangulation, haversine_distance
 
 
-def _get_length_acceptance_range(
-    points_coordinates: List[Tuple[float, float]],
-    points_delaunay_triangulation: List[List[float]],
+def get_alpha_triangulation(
+    coordinates_points: List[Tuple[float, float]],
     alpha: float = 1.5,
     distance: Callable = haversine_distance,
-) -> Tuple[float, float]:
+) -> List:
     """TODO
 
     References
     ----------
         [1] Tukey's fences, https://en.wikipedia.org/wiki/Outlier#Tukey's_fences
     """
+    # get Delauney triangulation
+    triangulation = delaunay_triangulation(coordinates_points)
+
+    #
     lengths = []
-    # i1, i2, i3 = indices of corner points of the triangle
-    for i1, i2, i3 in points_delaunay_triangulation:
-
-        # get the coordinates of the points that form the triangle
-        p1 = points_coordinates[i1]
-        p2 = points_coordinates[i2]
-        p3 = points_coordinates[i3]
-
+    for p1, p2, p3 in triangulation:
         # get lengths of sides of triangle using the formula for the distance
         # between points on a Cartesian plane
         lengths.append(distance(p1, p2))
@@ -35,61 +31,63 @@ def _get_length_acceptance_range(
     # sets the Turkey fence to the given alpha
     q25, q75 = np.quantile(lengths, [0.25, 0.75])
     intr_qr = q75 - q25
-    min_lenght = q25 - (alpha * intr_qr)
-    max_lenght = q75 + (alpha * intr_qr)
+    min_acceptable_length = q25 - (alpha * intr_qr)
+    max_acceptable_length = q75 + (alpha * intr_qr)
 
-    # length acceptance range as tuple
-    return min_lenght, max_lenght
+    #
+    def is_valid_triangule(triangule, min_length, max_length):
+        """TODO"""
+        # get lengths of sides of triangle
+        s1 = distance(triangule[0], triangule[1])
+        s2 = distance(triangule[1], triangule[2])
+        s3 = distance(triangule[2], triangule[0])
+        return all([min_length < length < max_length for length in [s1, s2, s3]])
+
+    #
+    return list(
+        filter(
+            lambda triangule: is_valid_triangule(
+                triangule, min_acceptable_length, max_acceptable_length
+            ),
+            triangulation,
+        )
+    )
 
 
-def _get_alpha_shape_edges_from_triangulation(
-    points_coordinates: List[Tuple[float, float]],
-    points_delaunay_triangulation: List[List[float]],
+def alpha_shape_edges(
+    coordinates_points: List[Tuple[float, float]],
     alpha: float = 1.5,
     distance: Callable = haversine_distance,
 ) -> List[Tuple[int, int]]:
     """
     TODO
     """
-    min_lenght, max_lenght = _get_length_acceptance_range(
-        points_coordinates, points_delaunay_triangulation, alpha, distance
-    )
+    #
+    alpha_triangulation = get_alpha_triangulation(coordinates_points, alpha, distance)
 
-    def add_edge(edges, i, j):
-        """
-        Add a line between the i-th and j-th points, if not in the list already
-        """
-        if (i, j) in edges or (j, i) in edges:
-            assert (j, i) in edges, "Can't go twice over same directed edge right?"
-            edges.remove((j, i))
+    #
+    alpha_shape_edges_set = set()
+
+    #
+    def add_edge(edges_saved, edge_source, edge_target):
+        """TODO"""
+        edge = (edge_source, edge_target)
+        edge_reversed = (edge_target, edge_source)
+
+        if edge in edges_saved or edge_reversed in edges_saved:
+            assert (
+                edge_reversed in edges_saved
+            ), "Can't go twice over same directed edge right?"
+            edges_saved.remove(edge_reversed)
             return
-        edges.add((i, j))
 
-    # indices of edge points that define the concave hull
-    alpha_shape_edges = set()
+        edges_saved.add(edge)
 
-    # i1, i2, i3 = indices of corner points of the triangle
-    for i1, i2, i3 in points_delaunay_triangulation:
-
-        # get the coordinates of the points that form the triangle
-        p1 = points_coordinates[i1]
-        p2 = points_coordinates[i2]
-        p3 = points_coordinates[i3]
-
-        # get lengths of sides of triangle using the formula for the distance
-        # between points on a Cartesian plane
-        d1 = distance(p1, p2)
-        d2 = distance(p2, p3)
-        d3 = distance(p3, p1)
-
-        # ignore triangles outside the range of acceptable lengths
-        if any([length < min_lenght or max_lenght < length for length in [d1, d2, d3]]):
-            continue
-
-        # saves indices of points of acceptable triangles, but only outermost edges
-        add_edge(alpha_shape_edges, i1, i2)
-        add_edge(alpha_shape_edges, i2, i3)
-        add_edge(alpha_shape_edges, i3, i1)
+    #
+    for p1, p2, p3 in alpha_triangulation:
+        add_edge(alpha_shape_edges_set, p1, p2)
+        add_edge(alpha_shape_edges_set, p2, p3)
+        add_edge(alpha_shape_edges_set, p3, p1)
 
     # list of indices of edge points that define the concave hull
-    return list(alpha_shape_edges)
+    return list(alpha_shape_edges_set)
