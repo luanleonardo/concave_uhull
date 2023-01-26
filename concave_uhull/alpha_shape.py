@@ -35,7 +35,7 @@ def get_alpha_triangulation(
     max_acceptable_length = q75 + (alpha * intr_qr)
 
     #
-    def is_valid_triangule(triangule, min_length, max_length):
+    def is_alpha_triangule(triangule, min_length, max_length):
         """TODO"""
         # get lengths of sides of triangle
         s1 = distance(triangule[0], triangule[1])
@@ -46,7 +46,7 @@ def get_alpha_triangulation(
     #
     return list(
         filter(
-            lambda triangule: is_valid_triangule(
+            lambda triangule: is_alpha_triangule(
                 triangule, min_acceptable_length, max_acceptable_length
             ),
             triangulation,
