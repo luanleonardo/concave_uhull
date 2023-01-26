@@ -53,9 +53,36 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
 
 
 def delaunay_triangulation(coordinates_points: List[Tuple[float, float]]) -> List:
-    """TODO"""
+    """
+    Get a Delaunay triangulation from the coordinates of the points.
+
+    References
+    ----------
+        [1] Delaunay triangulation, https://en.wikipedia.org/wiki/Delaunay_triangulation
+
+        [2] scipy.spatial.Delaunay, https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
+    """
     delaunay_triangulation_indices = Delaunay(np.array(coordinates_points)).simplices
     return [
         (coordinates_points[idx1], coordinates_points[idx2], coordinates_points[idx3])
         for (idx1, idx2, idx3) in delaunay_triangulation_indices
     ]
+
+
+def area_of_polygon(coordinates_polygon_vertices):
+    """
+    Calculate area of polygon using Shoelace formula.
+
+    References
+    ----------
+        [1] Shoelace formula, https://en.wikipedia.org/wiki/Shoelace_formula#Other_formulas
+    """
+    #
+    x, y = zip(*coordinates_polygon_vertices)
+
+    #
+    area = 0.0
+    for i in range(-1, len(coordinates_polygon_vertices) - 1):
+        area += x[i] * (y[i + 1] - y[i - 1])
+
+    return 0.5 * abs(area)
