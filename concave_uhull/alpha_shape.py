@@ -169,4 +169,5 @@ def alpha_shape_polygons(
     #
     alpha_shape_polygons_list.sort(key=area_of_polygon, reverse=True)
 
+    #
     return alpha_shape_polygons_list
