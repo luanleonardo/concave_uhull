@@ -1,6 +1,7 @@
-from typing import Tuple
+from typing import List, Tuple
 
 import numpy as np
+from scipy.spatial import Delaunay
 
 
 def euclidean_distance(coord1: Tuple, coord2: Tuple) -> float:
@@ -49,3 +50,12 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
 
     # output distance in kilometers
     return radius_earth * c
+
+
+def delaunay_triangulation(coordinates_points: List[Tuple[float, float]]) -> List:
+    """TODO"""
+    delaunay_triangulation_indices = Delaunay(np.array(coordinates_points)).simplices
+    return [
+        (coordinates_points[idx1], coordinates_points[idx2], coordinates_points[idx3])
+        for (idx1, idx2, idx3) in delaunay_triangulation_indices
+    ]

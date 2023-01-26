@@ -1,5 +1,6 @@
 from collections import defaultdict
 from heapq import heappop, heappush
+from typing import Callable, Tuple
 
 from concave_uhull.utils.geometry import haversine_distance
 
@@ -7,9 +8,9 @@ from concave_uhull.utils.geometry import haversine_distance
 def add_edge(
     graph_adjacency_list: defaultdict,
     edge_weights: defaultdict,
-    edge_source: tuple,
-    edge_target: tuple,
-    weight_function=haversine_distance,
+    edge_source: Tuple,
+    edge_target: Tuple,
+    weight_function: Callable = haversine_distance,
 ):
     """
     TODO
@@ -34,8 +35,8 @@ def add_edge(
 def remove_edge(
     graph_adjacency_list: defaultdict,
     edge_weights: defaultdict,
-    edge_source: tuple,
-    edge_target: tuple,
+    edge_source: Tuple,
+    edge_target: Tuple,
 ):
     """
     TODO
