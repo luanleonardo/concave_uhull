@@ -7,7 +7,7 @@ from concave_uhull.utils.geometry import area_of_polygon, euclidean_distance
 
 @pytest.fixture
 def coordinates_square_set():
-    """Coordendas de um conjunto de 5k pontos, similar a um quadrado de lado 4."""
+    """Coordinates of a set of 5k points, similar to a square of side 4."""
     np.random.seed(0)
     x = 4 * np.random.rand(5000)
     y = 4 * np.random.rand(5000)
@@ -16,16 +16,16 @@ def coordinates_square_set():
 
 @pytest.fixture
 def circular_crown_set(coordinates_square_set):
-    """Coordendas de um conjunto similar a uma coroa circular, formada da diferença
-    entre círculos concêntricos em (2.0, 2.0) de áreas 2 * pi e pi."""
-    # centro dos circulos
+    """Coordinates of a circular crown like set, formed from the difference between
+    concentric circles in (2.0, 2.0) of areas 2 * pi and pi."""
+    # center of circles
     center_circles = (2.0, 2.0)
 
-    # checa se ponto esta na coroa circular
+    # check if the point is on the circular crown
     def _is_circular_crown_point(point, center):
         return 1.0 < euclidean_distance(point, center) < np.sqrt(2.0)
 
-    # retorna pontos na coroa circular
+    # returns points on the circular crown
     return list(
         filter(
             lambda point: _is_circular_crown_point(point, center_circles),
@@ -35,36 +35,36 @@ def circular_crown_set(coordinates_square_set):
 
 
 def tests_alpha_shape_polygons_in_square_set(coordinates_square_set):
-    """Testa formas alphas no conjunto similar a um quadrado de lado 4."""
-    # obtem as formas alpha do conjunto quadrado
+    """Test alpha shapes in the set similar to a square of side 4."""
+    # gets the alpha shapes of the square set
     polygons = alpha_shape_polygons(coordinates_square_set, distance=euclidean_distance)
 
-    # ao menos uma forma alpha deve ser retornada
+    # at least one alpha form must be returned
     assert len(polygons) > 0
 
-    # a forma alpha de maior área deve ter área próxima a de um quadrado de lado 4.
+    # the largest area alpha shape should have an area close to that of a square of side 4
     largest_area_polygon = polygons[0]
     assert np.isclose(area_of_polygon(largest_area_polygon), 16.0, atol=0.5)
 
 
 def tests_alpha_shape_polygons_in_circular_crown_set(circular_crown_set):
-    """Testa formas alphas no conjunto similar a coroa circular."""
-    # obtem as formas alpha do conjunto quadrado
+    """Test alpha shapes in the circular crown set."""
+    # get alpha shapes from circular crown set
     polygons = alpha_shape_polygons(circular_crown_set, distance=euclidean_distance)
 
-    # ao menos duas formas alpha devem ser retornadas, uma para os pontos mais externos
-    # (similar ao círculo de maior área 2pi) e outra forma para os pontos mais internos
-    # (similar ao círculo de menor área pi).
+    # at least two alpha shapes must be returned, one for the outermost points
+    # (similar to the circle with the largest area 2pi) and another shape for the
+    # innermost points (similar to the circle with the smallest area pi).
     assert len(polygons) >= 2
 
-    # a forma alpha de maior área deve área menor do que 2pi (área do maior círculo)
-    # e maior do que pi (área do círculo menor).
+    # the largest-area alpha shape must have an area less than 2pi (area of the
+    # largest circle) and greater than pi (area of the smallest circle).
     largest_area_polygon = polygons[0]
     largest_area = area_of_polygon(largest_area_polygon)
     assert np.pi < largest_area < 2 * np.pi
 
-    # a segunda forma alpha de maior área deve ter área menor que a primeira (óbvio)
-    # e maior do que pi (área do círculo menor).
+    # the second largest-area alpha shape must have an area smaller than the first
+    # (obvious) and greater than pi (area of the smaller circle).
     second_largest_area_polygon = polygons[1]
     second_largest_area = area_of_polygon(second_largest_area_polygon)
     assert np.pi < second_largest_area < largest_area

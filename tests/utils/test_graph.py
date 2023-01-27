@@ -8,7 +8,7 @@ from concave_uhull.utils.graph import add_edge, remove_edge, shortest_path
 
 @pytest.fixture
 def square_edges():
-    """TODO"""
+    """Defines a set of points that form a square of side 1.0"""
     return [
         ((0.0, 0.0), (0.0, 1.0)),
         ((0.0, 1.0), (1.0, 1.0)),
