@@ -11,16 +11,15 @@ from concave_uhull.utils.geometry import (
 
 @pytest.fixture
 def coordinates_points():
+    """
+    Defines a set of points that form a simple square-shaped polygon of side 1.0.
+    """
     return [(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0)]
 
 
 def test_euclidean_distance():
     """
-    Calculate the Euclidean distance between coordinates
-
-    References
-    ----------
-    [1] Euclidean distance, https://en.wikipedia.org/wiki/Euclidean_distance
+    Calculate the Euclidean distance between coordinates.
     """
     x = (4, 0)
     y = (0, 3)
@@ -31,7 +30,7 @@ def test_euclidean_distance():
 def test_haversine_distance():
     """
     Calculate the distance between the Ezeiza Airport (Buenos
-    Aires, Argentina) and the Charles de Gaulle Airport (Paris, France)
+    Aires, Argentina) and the Charles de Gaulle Airport (Paris, France).
 
     References
     ----------
@@ -46,7 +45,9 @@ def test_haversine_distance():
 
 
 def test_delaunay_triangulation(coordinates_points):
-    """TODO"""
+    """
+    Test obtaining triangulation of the coordinates of the points using Delaunay's algorithm.
+    """
     # get Delauney triangulation,
     triangulation = delaunay_triangulation(coordinates_points)
 
@@ -55,7 +56,9 @@ def test_delaunay_triangulation(coordinates_points):
 
 
 def test_area_of_polygon(coordinates_points):
-    """TODO"""
+    """
+    Test area calculation of a simple polygon.
+    """
     # define square polygon vertices
     square_polygon_vertices = coordinates_points + [(0.0, 0.0)]
 

@@ -8,7 +8,9 @@ from concave_uhull.utils.graph import add_edge, remove_edge, shortest_path
 
 @pytest.fixture
 def square_edges():
-    """Defines a set of points that form a square of side 1.0"""
+    """
+    Defines a set of points that form a square of side 1.0.
+    """
     return [
         ((0.0, 0.0), (0.0, 1.0)),
         ((0.0, 1.0), (1.0, 1.0)),
@@ -18,7 +20,9 @@ def square_edges():
 
 
 def test_add_edge(square_edges):
-    """Test add edge to graph"""
+    """
+    Test add edge to graph.
+    """
     # create data structure for graph, edge weights and edges
     graph = defaultdict(set)
     weight = defaultdict(dict)
@@ -44,8 +48,10 @@ def test_add_edge(square_edges):
 
 
 def test_add_edge_assertion_error(square_edges):
-    """function should throw an assertion error when trying
-    to add edge that already exists"""
+    """
+    function should throw an assertion error when trying
+    to add edge that already exists.
+    """
     # create data structure for graph, edge weights and edges
     graph = defaultdict(set)
     weight = defaultdict(dict)
@@ -73,7 +79,9 @@ def test_add_edge_assertion_error(square_edges):
 
 
 def test_remove_edge(square_edges):
-    """Test edge removal"""
+    """
+    Test edge removal.
+    """
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -99,9 +107,11 @@ def test_remove_edge(square_edges):
 
 
 def test_remove_edge_assertion_error(square_edges):
-    """Function should throw an assertion error when
+    """
+    Function should throw an assertion error when
     trying to remove an edge that does not exist in
-    the graph"""
+    the graph.
+    """
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -130,7 +140,9 @@ def test_remove_edge_assertion_error(square_edges):
 
 
 def test_shortest_path(square_edges):
-    """Tests to get the shortest path between nodes"""
+    """
+    Tests to get the shortest path between nodes.
+    """
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -160,9 +172,11 @@ def test_shortest_path(square_edges):
 
 
 def test_shortest_path_assertion_error(square_edges):
-    """Function throws assertion error in two cases: when there is no path in
+    """
+    Function throws assertion error in two cases: when there is no path in
     the graph connecting the two points or when one of the nodes (or both) are
-    not in the graph."""
+    not in the graph.
+    """
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
