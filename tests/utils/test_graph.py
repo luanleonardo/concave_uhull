@@ -18,7 +18,7 @@ def square_edges():
 
 
 def test_add_edge(square_edges):
-    """TODO"""
+    """Test add edge to graph"""
     # create data structure for graph, edge weights and edges
     graph = defaultdict(set)
     weight = defaultdict(dict)
@@ -44,7 +44,8 @@ def test_add_edge(square_edges):
 
 
 def test_add_edge_assertion_error(square_edges):
-    """TODO"""
+    """function should throw an assertion error when trying
+    to add edge that already exists"""
     # create data structure for graph, edge weights and edges
     graph = defaultdict(set)
     weight = defaultdict(dict)
@@ -72,7 +73,7 @@ def test_add_edge_assertion_error(square_edges):
 
 
 def test_remove_edge(square_edges):
-    """TODO"""
+    """Test edge removal"""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -98,7 +99,9 @@ def test_remove_edge(square_edges):
 
 
 def test_remove_edge_assertion_error(square_edges):
-    """TODO"""
+    """Function should throw an assertion error when
+    trying to remove an edge that does not exist in
+    the graph"""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -116,6 +119,7 @@ def test_remove_edge_assertion_error(square_edges):
         edge_target,
     )
 
+    # try to remove nonexistent edge
     with pytest.raises(AssertionError, match="No edge"):
         remove_edge(
             graph_adjacency_list,
@@ -126,7 +130,7 @@ def test_remove_edge_assertion_error(square_edges):
 
 
 def test_shortest_path(square_edges):
-    """TODO"""
+    """Tests to get the shortest path between nodes"""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
@@ -156,7 +160,9 @@ def test_shortest_path(square_edges):
 
 
 def test_shortest_path_assertion_error(square_edges):
-    """TODO"""
+    """Function throws assertion error in two cases: when there is no path in
+    the graph connecting the two points or when one of the nodes (or both) are
+    not in the graph."""
     # create data structure for graph, edge weights and edges
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
