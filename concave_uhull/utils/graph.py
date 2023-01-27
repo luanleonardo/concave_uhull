@@ -1,6 +1,6 @@
 from collections import defaultdict
 from heapq import heappop, heappush
-from typing import Callable, Tuple
+from typing import Callable, Dict, List, Tuple
 
 from concave_uhull.utils.geometry import haversine_distance
 
@@ -11,9 +11,36 @@ def add_edge(
     edge_source: Tuple,
     edge_target: Tuple,
     weight_function: Callable = haversine_distance,
-):
+) -> None:
     """
-    TODO
+    Adds nodes and edges to the undirected graph's adjacency list, as well as
+    calculates the weight of the added edge.
+
+    Parameters
+    ----------
+    graph_adjacency_list
+        A defaultdict(set) representing the adjacency list of the undirected graph.
+    edge_weights
+        A defaultdict(dict) representing the edge weight matrix.
+    edge_source
+        Tuple with the coordinates of the source of the edge.
+    edge_target
+        Tuple with the coordinates of the target of the edge.
+    weight_function
+        Function that receives two tuples of node coordinates and obtains a
+        weight for the edge formed by the nodes. By default, we use the
+        Haversine distance function, as we assume that the coordinates of the
+        nodes are of the form (lng, lat).
+
+    Returns
+    -------
+    None
+        Returns None
+
+    Raises
+    ------
+    AssertionError
+        If the edge already exists in the adjacency list of the undirected graph.
     """
     # assertions
     assert (
@@ -37,9 +64,31 @@ def remove_edge(
     edge_weights: defaultdict,
     edge_source: Tuple,
     edge_target: Tuple,
-):
+) -> None:
     """
-    TODO
+    Remove edge from undirected graph adjacency list. In addition, it removes
+    the cost associated with the edge removed from the cost matrix.
+
+    Parameters
+    ----------
+    graph_adjacency_list
+        A defaultdict(set) representing the adjacency list of the undirected graph.
+    edge_weights
+        A defaultdict(dict) representing the edge weight matrix.
+    edge_source
+        Tuple with the coordinates of the source of the edge.
+    edge_target
+        Tuple with the coordinates of the target of the edge.
+
+    Returns
+    -------
+    None
+        Returns None
+
+    Raises
+    ------
+    AssertionError
+        If the edge does not exist in the adjacency list of the undirected graph.
     """
     # assertions
     assert (
@@ -58,9 +107,39 @@ def remove_edge(
     del edge_weights[edge_target][edge_source]
 
 
-def _dijkstra(graph_adjacency_list, edge_weights, edge_source, edge_target):
+def _dijkstra(
+    graph_adjacency_list: defaultdict,
+    edge_weights: defaultdict,
+    edge_source: Tuple,
+    edge_target: Tuple,
+) -> Tuple[Dict, Dict]:
     """
-    TODO
+    Dijkstra's algorithm for the shortest path problem between a single source
+    and all destinations with edges of non-negative weights. The  funtions allows
+    the computation of the shortest paths to each and every destination, if a
+    particular destination is not specified when the function is invoked.
+
+    Parameters
+    ----------
+    graph_adjacency_list
+        A defaultdict(set) representing the adjacency list of the undirected graph.
+    edge_weights
+        A defaultdict(dict) representing the edge weight matrix.
+    edge_source
+        Tuple with the coordinates of the source of the edge.
+    edge_target
+        Tuple with the coordinates of the target of the edge.
+
+    Returns
+    -------
+    Tuple[Dict, Dict]
+        distances:
+            Dictionary where each key represents a destination node and the value represents
+            the shortest path distance/cost between the source node and the key node.
+
+        predecessors:
+            Dictionary where each key represents a target node and the value represents the
+            predecessor node on the shortest path between the source node and the key node.
     """
     nodes = graph_adjacency_list.keys()
     predecessors = {node: None for node in nodes}
@@ -83,9 +162,40 @@ def _dijkstra(graph_adjacency_list, edge_weights, edge_source, edge_target):
     return distances, predecessors
 
 
-def shortest_path(graph_adjacency_list, edge_weights, edge_source, edge_target):
+def shortest_path(
+    graph_adjacency_list: defaultdict,
+    edge_weights: defaultdict,
+    edge_source: Tuple,
+    edge_target: Tuple,
+) -> List[Tuple]:
     """
-    TODO
+    It uses Dijkstra's algorithm to obtain the shortest path between the source node
+    and the destination node. The obtained path is represented by a list of coordinates
+    of the nodes, where the first coordinate of the list is the origin node and the
+    last coordinate of the list is the destination node.
+
+    Parameters
+    ----------
+    graph_adjacency_list
+        A defaultdict(set) representing the adjacency list of the undirected graph.
+    edge_weights
+        A defaultdict(dict) representing the edge weight matrix.
+    edge_source
+        Tuple with the coordinates of the source of the edge.
+    edge_target
+        Tuple with the coordinates of the target of the edge.
+
+    Returns
+    -------
+    List[Tuple]
+        A list of coordinates of the nodes, where the first coordinate of the list is
+        the origin node and the last coordinate of the list is the destination node.
+
+    Raises
+    ------
+    AssertionError
+        If the source node or destination node does not belong to the graph.
+        If there is no path between source node and destination node.
     """
     # assertion about both nodes belong to the graph
     assert (
