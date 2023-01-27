@@ -115,7 +115,7 @@ def _dijkstra(
 ) -> Tuple[Dict, Dict]:
     """
     Dijkstra's algorithm for the shortest path problem between a single source
-    and all destinations with edges of non-negative weights. The  funtions allows
+    and all destinations with edges of non-negative weights. The funtions allows
     the computation of the shortest paths to each and every destination, if a
     particular destination is not specified when the function is invoked.
 
