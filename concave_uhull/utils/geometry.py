@@ -6,11 +6,23 @@ from scipy.spatial import Delaunay
 
 def euclidean_distance(coord1: Tuple, coord2: Tuple) -> float:
     """
-    Calculate the Euclidean distance between coordinates
+    Calculate the Euclidean distance between coordinates.
+
+    Parameters
+    ----------
+    coord1
+        Tuple of coordinates of the source point.
+    coord2
+        Tuple of coordinates of the target point.
+
+    Returns
+    -------
+    float
+        Euclid distance between source and target points.
 
     References
     ----------
-        [1] Euclidean distance, https://en.wikipedia.org/wiki/Euclidean_distance
+    .. [1] Euclidean distance, https://en.wikipedia.org/wiki/Euclidean_distance
     """
     return np.hypot(coord1[0] - coord2[0], coord1[1] - coord2[1])
 
@@ -23,13 +35,21 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
     between two points on the surface of a sphere. The first coordinate of
     each point is assumed to be the longitude, the second is the latitude.
 
+    Parameters
+    ----------
+    coord1
+        Tuple of coordinates of the source point.
+    coord2
+        Tuple of coordinates of the target point.
+
     Returns
     -------
+    float
         Haversine distance between coordinates in kilometers.
 
     References
     ----------
-        [1] Haversine formula, https://en.wikipedia.org/wiki/Haversine_formula
+    .. [1] Haversine formula, https://en.wikipedia.org/wiki/Haversine_formula
     """
     # Coordinates in decimal degrees (e.g. 2.89078, 12.79797)
     lon1, lat1 = coord1
@@ -52,15 +72,24 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
     return radius_earth * c
 
 
-def delaunay_triangulation(coordinates_points: List[Tuple[float, float]]) -> List:
+def delaunay_triangulation(coordinates_points: List[Tuple]) -> List:
     """
     Get a Delaunay triangulation from the coordinates of the points.
 
+    Parameters
+    ----------
+    coordinates_points
+        List of point coordinates.
+
+    Returns
+    -------
+    List
+        List of tuples with three point coordinates, representing the vertex points of triangles.
+
     References
     ----------
-        [1] Delaunay triangulation, https://en.wikipedia.org/wiki/Delaunay_triangulation
-
-        [2] scipy.spatial.Delaunay, https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
+    .. [1] Delaunay triangulation, https://en.wikipedia.org/wiki/Delaunay_triangulation
+    .. [2] scipy.spatial.Delaunay, https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
     """
     delaunay_triangulation_indices = Delaunay(np.array(coordinates_points)).simplices
     return [
@@ -69,20 +98,31 @@ def delaunay_triangulation(coordinates_points: List[Tuple[float, float]]) -> Lis
     ]
 
 
-def area_of_polygon(coordinates_polygon_vertices):
+def area_of_polygon(coordinates_polygon_vertices: List[Tuple]) -> float:
     """
     Calculate area of polygon using Shoelace formula.
 
+    Parameters
+    ----------
+    coordinates_polygon_vertices
+        List of tuples representing the coordinates of the polygon's vertices.
+
+    Returns
+    -------
+    float
+        Area of polygon calculated using Shoelace Formula.
+
     References
     ----------
-        [1] Shoelace formula, https://en.wikipedia.org/wiki/Shoelace_formula#Other_formulas
+    .. [1] Shoelace formula, https://en.wikipedia.org/wiki/Shoelace_formula#Other_formulas
     """
-    #
+    # get coordinates of vertices
     x, y = zip(*coordinates_polygon_vertices)
 
-    #
+    # variation of the Shoelace formula, see [1].
     area = 0.0
     for i in range(-1, len(coordinates_polygon_vertices) - 1):
         area += x[i] * (y[i + 1] - y[i - 1])
 
+    # Return area
     return 0.5 * abs(area)
