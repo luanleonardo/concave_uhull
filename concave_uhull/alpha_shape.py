@@ -162,8 +162,8 @@ def _get_alpha_shape_edges(
         -----
         Internal edges are shared by two triangles, as both have the same orientation
         it is guaranteed that we will pass through the same internal edge in two directions,
-        so to remove an internal edge it is enough to check if the edge or its inverse has
-        already been saved in the set.
+        so to identify an internal edge just check if the edge or its reverse has already
+        been saved in the set, and if so, remove it.
         """
         edge = (edge_source, edge_target)
         edge_reversed = (edge_target, edge_source)
