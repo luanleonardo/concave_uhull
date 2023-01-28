@@ -109,7 +109,7 @@ def _get_alpha_shape_edges(
     distance: Callable = haversine_distance,
 ) -> List[Tuple]:
     """
-    Gets a list of the outermost edges of each alpha triangle, in an alpha triangulation of
+    Gets a list of the boundary edges of each alpha triangle, in an alpha triangulation of
     the given point coordinates. Edges are represented by tuples of tuples, which represent
     the coordinates of each extreme vertex of the edge, from the source vertice to the
     destination (target) vertice.
@@ -131,7 +131,7 @@ def _get_alpha_shape_edges(
     Returns
     -------
     List[Tuple]
-        A list of the outermost edges of each alpha triangle, in an alpha triangulation of
+        A list of the boundary edges of each alpha triangle, in an alpha triangulation of
         the given point coordinates. Edges are represented by tuples of tuples, which represent
         the coordinates of each extreme vertex of the edge, from the source vertice to the
         destination (target) vertice
@@ -144,26 +144,28 @@ def _get_alpha_shape_edges(
     -----
     The function performs the following steps to obtain the edges:
         1. Get alpha triangulation of the coordinates points given;
-        2. Returns only the outermost edges of each alpha triangle in the alpha
-        triangulation obtained for the given point coordinate set.
+        2. returns only the boundary edges of each alpha triangle from the obtained
+        alpha triangulation for the given set of point coordinates.
     """
     # Step 1: get alpha triangulation;
     alpha_triangulation = _get_alpha_triangulation(
         coordinates_points=coordinates_points, alpha=alpha, distance=distance
     )
 
-    # Step 2: returns only the outermost edges of each alpha triangle in the alpha
-    # triangulation obtained for the given point coordinate set.
-    def _remove_innermost_edges(edges_saved, edge_source, edge_target):
+    # Step 2: returns only the boundary edges of each alpha triangle from the
+    # obtained alpha triangulation for the given set of point coordinates.
+    def _save_boundary_edges(edges_saved, edge_source, edge_target):
         """
-        Removes the innermost edges, saving only the outermost edges in the set.
+        Saves only boundary edges.
 
         Notes
         -----
-        Internal edges are shared by two triangles, as both have the same orientation
-        it is guaranteed that we will pass through the same internal edge in two directions,
-        so to identify an internal edge just check if the edge or its reverse has already
-        been saved in the set, and if so, remove it.
+        Edges that are not boundaries will be shared by two triangles, as both
+        have the same orientation it is guaranteed that we will pass through
+        these edges in both directions. To identify a non-boundary edge, it is
+        sufficient to check whether the edge or its reverse has been saved in
+        the set and, if so, remove it. Following these steps, only the border
+        edges will remain in the set.
         """
         edge = (edge_source, edge_target)
         edge_reversed = (edge_target, edge_source)
@@ -175,12 +177,11 @@ def _get_alpha_shape_edges(
             return
         edges_saved.add(edge)
 
-    # Removes the innermost edges, saving only the outermost edges in the set.
     alpha_shape_edges_set = set()
     for p1, p2, p3 in alpha_triangulation:
-        _remove_innermost_edges(alpha_shape_edges_set, p1, p2)
-        _remove_innermost_edges(alpha_shape_edges_set, p2, p3)
-        _remove_innermost_edges(alpha_shape_edges_set, p3, p1)
+        _save_boundary_edges(alpha_shape_edges_set, p1, p2)
+        _save_boundary_edges(alpha_shape_edges_set, p2, p3)
+        _save_boundary_edges(alpha_shape_edges_set, p3, p1)
     return list(alpha_shape_edges_set)
 
 
@@ -217,18 +218,18 @@ def alpha_shape_polygons(
 
     See Also
     --------
-    _get_alpha_shape_edges : Gets a list of the outermost edges of each alpha triangle, in an
+    _get_alpha_shape_edges : Gets a list of the boundary edges of each alpha triangle, in an
         alpha triangulation of the given point coordinates.
 
     Notes
     -----
     The function performs the following steps to obtain the alpha shape polygon list:
 
-        1. Gets a list of the outermost edges of each alpha triangle, in an
-        alpha triangulation of the given point coordinates.
+        1. Gets a list of the boundary edges of each alpha triangle, in an alpha
+        triangulation of the given point coordinates.
 
-        2. Defines an undirected graph, induced by the outermost alpha
-        vertices and non-negative edge weights computed with the distance function.
+        2. Defines an undirected graph, induced by the boundary alpha vertices and
+        non-negative edge weights computed with the distance function.
 
         3. Create alpha shape polygon list with following substeps:
             3.1 A random edge is selected, its extreme points memorized and the edge
@@ -243,14 +244,19 @@ def alpha_shape_polygons(
             alpha shape.
 
         4. Returns list of alpha shape polygons in descending order by polygon area.
+
+    References
+    ----------
+    .. [1] D. Kalinina et. al., "Computing concave hull with closed curve smoothing: performance, concaveness measure and applications", https://doi.org/10.1016/j.procs.2018.08.258
+    .. [2] D. Kalinina et. al., "Concave Hull GitHub repository.", https://github.com/dkalinina/Concave_Hull.
     """
-    # Step 1: Gets a list of the outermost edges of each alpha triangle, in an alpha
+    # Step 1: Gets a list of the boundary edges of each alpha triangle, in an alpha
     # triangulation of the given point coordinates.
     alpha_shape_edges = _get_alpha_shape_edges(
         coordinates_points=coordinates_points, alpha=alpha, distance=distance
     )
 
-    # Step 2: Defines an undirected graph, induced by the outermost alpha vertices and
+    # Step 2: Defines an undirected graph, induced by the boundary alpha vertices and
     # non-negative edge weights computed with the distance function.
     graph_adjacency_list = defaultdict(set)
     edge_weights = defaultdict(dict)
