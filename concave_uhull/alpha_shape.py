@@ -247,8 +247,11 @@ def alpha_shape_polygons(
 
     References
     ----------
-    .. [1] D. Kalinina et. al., "Computing concave hull with closed curve smoothing: performance, concaveness measure and applications", https://doi.org/10.1016/j.procs.2018.08.258
-    .. [2] D. Kalinina et. al., "Concave Hull GitHub repository.", https://github.com/dkalinina/Concave_Hull.
+    .. [1] D. Kalinina et. al., "Computing concave hull with closed curve smoothing:
+    performance, concaveness measure and applications",
+    https://doi.org/10.1016/j.procs.2018.08.258
+    .. [2] D. Kalinina et. al., "Concave Hull GitHub repository.",
+    https://github.com/dkalinina/Concave_Hull.
     """
     # Step 1: Gets a list of the boundary edges of each alpha triangle, in an alpha
     # triangulation of the given point coordinates.

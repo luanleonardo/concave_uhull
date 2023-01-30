@@ -88,8 +88,10 @@ def delaunay_triangulation(coordinates_points: List[Tuple]) -> List:
 
     References
     ----------
-    .. [1] Delaunay triangulation, https://en.wikipedia.org/wiki/Delaunay_triangulation
-    .. [2] scipy.spatial.Delaunay, https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
+    .. [1] Delaunay triangulation,
+    https://en.wikipedia.org/wiki/Delaunay_triangulation
+    .. [2] scipy.spatial.Delaunay,
+    https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
     """
     delaunay_triangulation_indices = Delaunay(np.array(coordinates_points)).simplices
     return [
