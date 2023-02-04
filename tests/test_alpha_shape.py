@@ -37,12 +37,15 @@ def circular_crown_set(coordinates_square_set):
 def tests_alpha_shape_polygons_in_square_set(coordinates_square_set):
     """Test alpha shapes in the set similar to a square of side 4."""
     # gets the alpha shapes of the square set
-    polygons = alpha_shape_polygons(coordinates_square_set, distance=euclidean_distance)
+    polygons = alpha_shape_polygons(
+        coordinates_square_set, distance=euclidean_distance
+    )
 
     # at least one alpha form must be returned
     assert len(polygons) > 0
 
-    # the largest area alpha shape should have an area close to that of a square of side 4
+    # the largest area alpha shape should have an area close to that of a
+    # square of side 4
     largest_area_polygon = polygons[0]
     assert np.isclose(area_of_polygon(largest_area_polygon), 16.0, atol=0.5)
 
@@ -50,7 +53,9 @@ def tests_alpha_shape_polygons_in_square_set(coordinates_square_set):
 def tests_alpha_shape_polygons_in_circular_crown_set(circular_crown_set):
     """Test alpha shapes in the circular crown set."""
     # get alpha shapes from circular crown set
-    polygons = alpha_shape_polygons(circular_crown_set, distance=euclidean_distance)
+    polygons = alpha_shape_polygons(
+        circular_crown_set, distance=euclidean_distance
+    )
 
     # at least two alpha shapes must be returned, one for the outermost points
     # (similar to the circle with the largest area 2pi) and another shape for the

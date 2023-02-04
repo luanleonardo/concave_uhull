@@ -63,9 +63,9 @@ def haversine_distance(coord1: Tuple, coord2: Tuple) -> float:
     phi_2 = np.radians(lat2)
     delta_phi = np.radians(lat2 - lat1)
     delta_lambda = np.radians(lon2 - lon1)
-    a = np.square(np.sin(delta_phi / 2.0)) + np.cos(phi_1) * np.cos(phi_2) * np.square(
-        np.sin(delta_lambda / 2.0)
-    )
+    a = np.square(np.sin(delta_phi / 2.0)) + np.cos(phi_1) * np.cos(
+        phi_2
+    ) * np.square(np.sin(delta_lambda / 2.0))
     c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1.0 - a))
 
     # output distance in kilometers
@@ -93,9 +93,15 @@ def delaunay_triangulation(coordinates_points: List[Tuple]) -> List:
     .. [2] scipy.spatial.Delaunay,
     https://docs.scipy.org/doc/scipy/reference/generated/scipy.spatial.Delaunay.html
     """
-    delaunay_triangulation_indices = Delaunay(np.array(coordinates_points)).simplices
+    delaunay_triangulation_indices = Delaunay(
+        np.array(coordinates_points)
+    ).simplices
     return [
-        (coordinates_points[idx1], coordinates_points[idx2], coordinates_points[idx3])
+        (
+            coordinates_points[idx1],
+            coordinates_points[idx2],
+            coordinates_points[idx3],
+        )
         for (idx1, idx2, idx3) in delaunay_triangulation_indices
     ]
 

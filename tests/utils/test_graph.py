@@ -88,7 +88,13 @@ def test_remove_edge(square_edges):
 
     # define graph from edges
     for source, target in square_edges:
-        add_edge(graph_adjacency_list, edge_weights, source, target, euclidean_distance)
+        add_edge(
+            graph_adjacency_list,
+            edge_weights,
+            source,
+            target,
+            euclidean_distance,
+        )
 
     # remove edge
     edge_source, edge_target = (0.0, 0.0), (1.0, 0.0)
@@ -118,7 +124,13 @@ def test_remove_edge_assertion_error(square_edges):
 
     # define graph from edges
     for source, target in square_edges:
-        add_edge(graph_adjacency_list, edge_weights, source, target, euclidean_distance)
+        add_edge(
+            graph_adjacency_list,
+            edge_weights,
+            source,
+            target,
+            euclidean_distance,
+        )
 
     # remove edge
     edge_source, edge_target = (0.0, 0.0), (1.0, 0.0)
@@ -149,11 +161,19 @@ def test_shortest_path(square_edges):
 
     # define graph from edges
     for source, target in square_edges:
-        add_edge(graph_adjacency_list, edge_weights, source, target, euclidean_distance)
+        add_edge(
+            graph_adjacency_list,
+            edge_weights,
+            source,
+            target,
+            euclidean_distance,
+        )
 
     # get the shortest path between nodes
     edge_source, edge_target = (0.0, 0.0), (1.0, 0.0)
-    path = shortest_path(graph_adjacency_list, edge_weights, edge_source, edge_target)
+    path = shortest_path(
+        graph_adjacency_list, edge_weights, edge_source, edge_target
+    )
 
     # there is edge connecting the nodes, so the shortest path is formed by the nodes
     # themselves.
@@ -167,7 +187,9 @@ def test_shortest_path(square_edges):
         edge_source,
         edge_target,
     )
-    path = shortest_path(graph_adjacency_list, edge_weights, edge_source, edge_target)
+    path = shortest_path(
+        graph_adjacency_list, edge_weights, edge_source, edge_target
+    )
     assert path == [(0.0, 0.0), (0.0, 1.0), (1.0, 1.0), (1.0, 0.0)]
 
 
@@ -183,12 +205,22 @@ def test_shortest_path_assertion_error(square_edges):
 
     # define graph from edges
     for source, target in square_edges:
-        add_edge(graph_adjacency_list, edge_weights, source, target, euclidean_distance)
+        add_edge(
+            graph_adjacency_list,
+            edge_weights,
+            source,
+            target,
+            euclidean_distance,
+        )
 
     # add edge to make the graph disconnected
     edge_source, edge_target = (0.25, 0.25), (0.75, 0.75)
     add_edge(
-        graph_adjacency_list, edge_weights, edge_source, edge_target, euclidean_distance
+        graph_adjacency_list,
+        edge_weights,
+        edge_source,
+        edge_target,
+        euclidean_distance,
     )
 
     # Try to find the shortest path between nodes of one connected component and another
@@ -201,7 +233,8 @@ def test_shortest_path_assertion_error(square_edges):
             edge_target=edge_target,
         )
 
-    # Try to find the shortest path between nodes that do not belong to the graph (impossible)
+    # Try to find the shortest path between nodes that do not belong to the
+    # graph (impossible)
     with pytest.raises(AssertionError, match="Impossible to find path"):
         shortest_path(
             graph_adjacency_list=graph_adjacency_list,

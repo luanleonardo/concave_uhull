@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Callable, List, Tuple
+from typing import Callable, Dict, List, Set, Tuple
 
 import numpy as np
 
@@ -62,8 +62,9 @@ def _get_alpha_triangulation(
     # Step 1: get Delauney triangulation;
     triangulation = delaunay_triangulation(coordinates_points)
 
-    # Step 2: get triangle information, such as vertex coordinates and side lengths;
-    triangulation_info = {
+    # Step 2: get triangle information, such as vertex coordinates and side
+    # lengths;
+    triangulation_info: Dict = {
         "lengths_list": [],
         "coordinates_and_lengths": [],
     }
@@ -76,7 +77,9 @@ def _get_alpha_triangulation(
 
         # save triangle information
         triangulation_info["lengths_list"].extend(lengths)
-        triangulation_info["coordinates_and_lengths"].append((coordinates, lengths))
+        triangulation_info["coordinates_and_lengths"].append(
+            (coordinates, lengths)
+        )
 
     # Step 3: get the Tukey's fence for the given alpha (a.k.a alpha fence);
     q25, q75 = np.quantile(triangulation_info["lengths_list"], [0.25, 0.75])
@@ -98,7 +101,9 @@ def _get_alpha_triangulation(
 
     return [
         coordinates
-        for coordinates, lengths in triangulation_info["coordinates_and_lengths"]
+        for coordinates, lengths in triangulation_info[
+            "coordinates_and_lengths"
+        ]
         if _is_alpha_triangule(lengths)
     ]
 
@@ -177,7 +182,7 @@ def _get_alpha_shape_edges(
             return
         edges_saved.add(edge)
 
-    alpha_shape_edges_set = set()
+    alpha_shape_edges_set: Set[Tuple] = set()
     for p1, p2, p3 in alpha_triangulation:
         _save_boundary_edges(alpha_shape_edges_set, p1, p2)
         _save_boundary_edges(alpha_shape_edges_set, p2, p3)
@@ -261,8 +266,8 @@ def alpha_shape_polygons(
 
     # Step 2: Defines an undirected graph, induced by the boundary alpha vertices and
     # non-negative edge weights computed with the distance function.
-    graph_adjacency_list = defaultdict(set)
-    edge_weights = defaultdict(dict)
+    graph_adjacency_list: defaultdict = defaultdict(set)
+    edge_weights: defaultdict = defaultdict(dict)
     nodes_to_explore = set()
     for edge_source, edge_target in alpha_shape_edges:
         add_edge(
@@ -308,6 +313,7 @@ def alpha_shape_polygons(
                 nodes_to_explore.remove(vertice)
         alpha_shape_polygons_list.append(polygon_vertices)
 
-    # Step 4: Returns list of alpha shape polygons in descending order by polygon area.
+    # Step 4: Returns list of alpha shape polygons in descending order by
+    # polygon area.
     alpha_shape_polygons_list.sort(key=area_of_polygon, reverse=True)
     return alpha_shape_polygons_list

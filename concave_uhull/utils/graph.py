@@ -55,8 +55,12 @@ def add_edge(
     graph_adjacency_list[edge_target].add(edge_source)
 
     # compute edge weight
-    edge_weights[edge_source][edge_target] = weight_function(edge_source, edge_target)
-    edge_weights[edge_target][edge_source] = edge_weights[edge_source][edge_target]
+    edge_weights[edge_source][edge_target] = weight_function(
+        edge_source, edge_target
+    )
+    edge_weights[edge_target][edge_source] = edge_weights[edge_source][
+        edge_target
+    ]
 
 
 def remove_edge(
@@ -142,8 +146,8 @@ def _dijkstra(
             predecessor node on the shortest path between the source node and the key node.
     """
     nodes = graph_adjacency_list.keys()
-    predecessors = {node: None for node in nodes}
-    visited = {node: False for node in nodes}
+    predecessors = defaultdict(tuple)
+    visited: defaultdict = defaultdict(bool)
     distances = {node: float("inf") for node in nodes}
     distances[edge_source] = 0
     heap = [(0, edge_source)]
@@ -154,7 +158,9 @@ def _dijkstra(
             if node == edge_target:
                 break
             for neighbor in graph_adjacency_list[node]:
-                distance_neighbor = distance_node + edge_weights[node][neighbor]
+                distance_neighbor = (
+                    distance_node + edge_weights[node][neighbor]
+                )
                 if distance_neighbor < distances[neighbor]:
                     distances[neighbor] = distance_neighbor
                     predecessors[neighbor] = node
