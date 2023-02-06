@@ -363,12 +363,11 @@ def shortest_path(
         If there is no path between source node and destination node.
     """
     # assertion about both nodes belong to the graph
-    assert (
-        edge_source in graph_adjacency_list
-    ), "Impossible to find path between nodes that do not belong to the graph"
-    assert (
-        edge_target in graph_adjacency_list
-    ), "Impossible to find path between nodes that do not belong to the graph"
+    assertion_msg = (
+        "Impossible to find path between nodes that do not belong to the graph"
+    )
+    assert edge_source in graph_adjacency_list, assertion_msg
+    assert edge_target in graph_adjacency_list, assertion_msg
 
     # get path cost and predecessor nodes using dijkstra's algorithm
     distances, predecessors = _dijkstra(
