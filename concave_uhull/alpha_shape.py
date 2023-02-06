@@ -8,7 +8,13 @@ from concave_uhull.utils.geometry import (
     delaunay_triangulation,
     haversine_distance,
 )
-from concave_uhull.utils.graph import add_edge, remove_edge, shortest_path
+from concave_uhull.utils.graph import (
+    Graph,
+    add_edge,
+    remove_edge,
+    shortest_path,
+    shortest_path_algorithm,
+)
 
 
 def _get_alpha_triangulation(
@@ -302,6 +308,130 @@ def alpha_shape_polygons(
         # by adding the first point to the end of the path.
         polygon_vertices = shortest_path(
             graph_adjacency_list, edge_weights, edge_source, edge_target
+        )
+        polygon_vertices.append(edge_source)
+
+        # Step 3.3:  After that all waypoints are removed from the set of points
+        # to be explored. And then add the obtained polygon to the polygon list of
+        # the alpha shape.
+        for vertice in polygon_vertices:
+            if vertice in nodes_to_explore:
+                nodes_to_explore.remove(vertice)
+        alpha_shape_polygons_list.append(polygon_vertices)
+
+    # Step 4: Returns list of alpha shape polygons in descending order by
+    # polygon area.
+    alpha_shape_polygons_list.sort(key=area_of_polygon, reverse=True)
+    return alpha_shape_polygons_list
+
+
+def get_alpha_shape_polygons(
+    coordinates_points: List[Tuple],
+    alpha: float = 1.5,
+    distance: Callable = haversine_distance,
+) -> List[List[Tuple]]:
+    """
+    Provides a list of polygons, sorted in descending order by their areas, representing the
+    concave hull of the given set of coordinates. The implemented algorithm uses a strategy
+    based on the alpha shape algorithm, which is obtained from a special triangulation of the
+    set of coordinates. This triangulation is strongly influenced by the value of the alpha
+    parameter and the given distance function.
+
+    Parameters
+    ----------
+    coordinates_points
+        List of point coordinates. Coordinates are represented by tuples of two numerical values.
+
+    alpha
+        Float value responsible for determining the 'width' of Tukey's fence.
+
+    distance
+        Function that receives two tuples of coordinates of vertices and obtains a
+        measure of distance between the vertices. By default, we use the Haversine
+        distance function, as we assume that the coordinates of the vertices are of
+        the form (lng, lat).
+
+    Returns
+    -------
+    List[List[Tuple]]
+        Returns list of alpha shape polygons in descending order by polygon area.
+
+    See Also
+    --------
+    _get_alpha_shape_edges : Gets a list of the boundary edges of each alpha triangle, in an
+        alpha triangulation of the given point coordinates.
+
+    Notes
+    -----
+    The function performs the following steps to obtain the alpha shape polygon list:
+
+        1. Gets a list of the boundary edges of each alpha triangle, in an alpha
+        triangulation of the given point coordinates.
+
+        2. Defines an undirected graph, induced by the boundary alpha vertices and
+        non-negative edge weights computed with the distance function.
+
+        3. Create alpha shape polygon list with following substeps:
+            3.1 A random edge is selected, its extreme points memorized and the edge
+            removed from the graph.
+
+            3.2 The shortest path from one memorized extreme point to the other
+            is obtained. With this path, we form a polygon of the alpha shape by adding
+            the first point to the end of the path.
+
+            3.3 After that all waypoints are removed from the set of points to be
+            explored. And then add the obtained polygon to the polygon list of the
+            alpha shape.
+
+        4. Returns list of alpha shape polygons in descending order by polygon area.
+
+    References
+    ----------
+    .. [1] D. Kalinina et. al., "Computing concave hull with closed curve smoothing:
+    performance, concaveness measure and applications",
+    https://doi.org/10.1016/j.procs.2018.08.258
+    .. [2] D. Kalinina et. al., "Concave Hull GitHub repository.",
+    https://github.com/dkalinina/Concave_Hull.
+    """
+    # Step 1: Gets a list of the boundary edges of each alpha triangle, in an alpha
+    # triangulation of the given point coordinates.
+    alpha_shape_edges = _get_alpha_shape_edges(
+        coordinates_points=coordinates_points, alpha=alpha, distance=distance
+    )
+
+    # Step 2: Defines an undirected graph, induced by the boundary alpha vertices and
+    # non-negative edge weights computed with the distance function.
+    graph = Graph()
+    nodes_to_explore = set()
+    for edge_source, edge_target in alpha_shape_edges:
+        graph.add_edge(
+            edge_source=edge_source,
+            edge_target=edge_target,
+            edge_weight=distance(edge_source, edge_target),
+        )
+        nodes_to_explore.add(edge_source)
+        nodes_to_explore.add(edge_target)
+
+    # Step 3: Create alpha shape polygon list with following substeps:
+    alpha_shape_polygons_list = []
+    while nodes_to_explore:
+
+        # Step 3.1: A random edge is selected, its extreme points memorized and
+        # the edge removed from the graph.
+        edge_source = nodes_to_explore.pop()
+        edge_target = next(iter(graph[edge_source]), None)
+        if edge_target is None:
+            continue
+        graph.remove_edge(
+            edge_source=edge_source,
+            edge_target=edge_target,
+        )
+
+        # Step 3.2: The shortest path from one memorized extreme point to the
+        # other is obtained. With this path, we form a polygon of the alpha shape
+        # by adding the first point to the end of the path.
+        polygon_vertices = shortest_path_algorithm(
+            graph=graph, edge_source=edge_source, edge_target=edge_target
         )
         polygon_vertices.append(edge_source)
 
