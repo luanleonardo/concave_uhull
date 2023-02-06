@@ -46,4 +46,4 @@ jobs:
     - name: Run tests and check coverage
       run: |
         # Fail if total coverage is below 95%
-        poetry run pytest --cov=. --cov-fail-under=95 tests/
+        poetry run pytest --cov=. --cov-fail-under=95 --cov-report term-missing tests/

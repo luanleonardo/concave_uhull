@@ -17,4 +17,4 @@ poetry run autopep8 --recursive --aggressive --exclude venv --diff .
 poetry run mypy --ignore-missing-imports .
 
 # Fail if total coverage is below 95%
-poetry run pytest --cov=. --cov-fail-under=95 tests/
+poetry run pytest --cov=. --cov-fail-under=95 --cov-report term-missing tests/
