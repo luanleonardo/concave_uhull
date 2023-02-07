@@ -1,6 +1,6 @@
 # concave_uhull*
 
-A simple (but not simpler) algorithm to obtain the concave hull using an alpha shape algorithm.
+A simple (but not simpler) algorithm for concave hull of 2D point sets using an alpha shape algorithm.
 
 Notes
 -----
