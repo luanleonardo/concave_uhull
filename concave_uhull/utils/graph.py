@@ -1,6 +1,6 @@
 from collections import defaultdict
 from heapq import heappop, heappush
-from typing import Dict, List, Tuple
+from typing import Dict, List, Set, Tuple
 
 
 class Graph:
@@ -9,19 +9,23 @@ class Graph:
     and removal operations.
     """
 
-    def __init__(self):
+    def __init__(self, edge_list, weight_function):
         self.adjacency_set = defaultdict(set)
         self.weight = defaultdict(dict)
+        self.nodes = set()
+
+        for source, target in edge_list:
+            self.add_edge(
+                edge_source=source,
+                edge_target=target,
+                edge_weight=weight_function(source, target),
+            )
 
     def __getitem__(self, node: Tuple) -> set:
         return self.adjacency_set[node]
 
     def __len__(self) -> int:
-        return len(self.adjacency_set)
-
-    @property
-    def nodes(self) -> set:
-        return set(self.adjacency_set.keys())
+        return len(self.nodes)
 
     def add_edge(
         self, edge_source: Tuple, edge_target: Tuple, edge_weight: float
@@ -57,7 +61,11 @@ class Graph:
             edge_source not in self.adjacency_set[edge_target]
         ), f"Edge ({edge_target}, {edge_source}) already exists"
 
-        # add edge to graph
+        # add nodes
+        self.nodes.add(edge_source)
+        self.nodes.add(edge_target)
+
+        # add edge to adjacency set
         self.adjacency_set[edge_source].add(edge_target)
         self.adjacency_set[edge_target].add(edge_source)
 
@@ -99,7 +107,7 @@ class Graph:
             edge_source in self.adjacency_set[edge_target]
         ), f"No edge ({edge_target}, {edge_source}) to remove"
 
-        # remove edge from graph
+        # remove edge from graph adjacency set
         self.adjacency_set[edge_source].remove(edge_target)
         self.adjacency_set[edge_target].remove(edge_source)
 
@@ -139,13 +147,13 @@ def dijkstra_algorithm(
             Dictionary where each key represents a target node and the value represents the
             predecessor node on the shortest path between the source node and the key node.
     """
-    explored = set()
-    distance = {
+    explored: Set = set()
+    distance: Dict = {
         node: float("inf") if node != edge_source else 0.0
         for node in graph.nodes
     }
-    heap = [(distance[edge_source], edge_source)]
-    predecessors = dict()
+    heap: List = [(distance[edge_source], edge_source)]
+    predecessors: Dict = dict()
     while heap:
         distance_node, node = heappop(heap)
         if node == edge_target:
