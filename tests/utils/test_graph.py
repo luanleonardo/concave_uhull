@@ -26,15 +26,8 @@ def test_add_edge_method(square_edges):
     Tests the add edge method of the Graph class.
     """
     # create instance of graph class
-    graph = Graph()
-
     # define graph from edges
-    for source, target in square_edges:
-        graph.add_edge(
-            edge_source=source,
-            edge_target=target,
-            edge_weight=euclidean_distance(source, target),
-        )
+    graph = Graph(edge_list=square_edges, weight_function=euclidean_distance)
 
     # graph must have 4 nodes
     assert len(graph) == 4
@@ -62,15 +55,8 @@ def test_add_edge_method_assertion_error(
     that already exists.
     """
     # create instance of graph class
-    graph = Graph()
-
     # define graph from edges
-    for source, target in square_edges:
-        graph.add_edge(
-            edge_source=source,
-            edge_target=target,
-            edge_weight=euclidean_distance(source, target),
-        )
+    graph = Graph(edge_list=square_edges, weight_function=euclidean_distance)
 
     # try adding existing edge
     with pytest.raises(AssertionError, match="already exists"):
@@ -90,15 +76,8 @@ def test_remove_edge_method(square_edges, edge_source, edge_target):
     Test class edge removal method.
     """
     # create instance of graph class
-    graph = Graph()
-
     # define graph from edges
-    for source, target in square_edges:
-        graph.add_edge(
-            edge_source=source,
-            edge_target=target,
-            edge_weight=euclidean_distance(source, target),
-        )
+    graph = Graph(edge_list=square_edges, weight_function=euclidean_distance)
 
     # remove edge
     graph.remove_edge(
@@ -106,7 +85,7 @@ def test_remove_edge_method(square_edges, edge_source, edge_target):
         edge_target=edge_target,
     )
 
-    # there must be no connection between nodes
+    # there must be no connection between nodes in the adjacency set
     assert edge_target not in graph[edge_source]
 
     # there must be no weight associated with the edge
@@ -125,15 +104,8 @@ def test_remove_edge_method_assertion_error(
     an edge that does not exist in the graph.
     """
     # create instance of graph class
-    graph = Graph()
-
     # define graph from edges
-    for source, target in square_edges:
-        graph.add_edge(
-            edge_source=source,
-            edge_target=target,
-            edge_weight=euclidean_distance(source, target),
-        )
+    graph = Graph(edge_list=square_edges, weight_function=euclidean_distance)
 
     # remove edge
     graph.remove_edge(
@@ -166,15 +138,8 @@ def test_dijkstra_algorithm(
     there is no path between nodes.
     """
     # create instance of graph class
-    graph = Graph()
-
     # define graph from edges
-    for source, target in square_edges:
-        graph.add_edge(
-            edge_source=source,
-            edge_target=target,
-            edge_weight=euclidean_distance(source, target),
-        )
+    graph = Graph(edge_list=square_edges, weight_function=euclidean_distance)
 
     # add edge to make the graph disconnected
     source, target = (0.25, 0.25), (0.75, 0.75)
@@ -198,15 +163,8 @@ def test_shortest_path_to_graph_class(square_edges):
     Tests to get the shortest path between nodes.
     """
     # create instance of graph class
-    graph = Graph()
-
     # define graph from edges
-    for source, target in square_edges:
-        graph.add_edge(
-            edge_source=source,
-            edge_target=target,
-            edge_weight=euclidean_distance(source, target),
-        )
+    graph = Graph(edge_list=square_edges, weight_function=euclidean_distance)
 
     # get the shortest path between nodes
     edge_source, edge_target = (0.0, 0.0), (1.0, 0.0)
@@ -237,15 +195,8 @@ def test_shortest_path_to_graph_class_assertion_error(square_edges):
     not in the graph.
     """
     # create instance of graph class
-    graph = Graph()
-
     # define graph from edges
-    for source, target in square_edges:
-        graph.add_edge(
-            edge_source=source,
-            edge_target=target,
-            edge_weight=euclidean_distance(source, target),
-        )
+    graph = Graph(edge_list=square_edges, weight_function=euclidean_distance)
 
     # add edge to make the graph disconnected
     edge_source, edge_target = (0.25, 0.25), (0.75, 0.75)

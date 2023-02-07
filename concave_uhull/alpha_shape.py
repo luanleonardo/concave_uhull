@@ -259,25 +259,17 @@ def get_alpha_shape_polygons(
     """
     # Step 1: Gets a list of the boundary edges of each alpha triangle, in an alpha
     # triangulation of the given point coordinates.
-    alpha_shape_edges = _get_alpha_shape_edges(
+    alpha_shape_edges: List = _get_alpha_shape_edges(
         coordinates_points=coordinates_points, alpha=alpha, distance=distance
     )
 
     # Step 2: Defines an undirected graph, induced by the boundary alpha vertices and
     # non-negative edge weights computed with the distance function.
-    graph = Graph()
-    nodes_to_explore = set()
-    for edge_source, edge_target in alpha_shape_edges:
-        graph.add_edge(
-            edge_source=edge_source,
-            edge_target=edge_target,
-            edge_weight=distance(edge_source, edge_target),
-        )
-        nodes_to_explore.add(edge_source)
-        nodes_to_explore.add(edge_target)
+    graph: Graph = Graph(edge_list=alpha_shape_edges, weight_function=distance)
+    nodes_to_explore: Set = graph.nodes.copy()
 
     # Step 3: Create alpha shape polygon list with following substeps:
-    alpha_shape_polygons_list = []
+    alpha_shape_polygons_list: List = []
     while nodes_to_explore:
 
         # Step 3.1: A random edge is selected, its extreme points memorized and
