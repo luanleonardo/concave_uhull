@@ -174,5 +174,5 @@ poetry.toml
 # Others
 
 *.zip
-dataset/
+data/loggibud
 # End of https://www.toptal.com/developers/gitignore/api/python

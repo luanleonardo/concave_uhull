@@ -17,4 +17,13 @@ pip install concave_uhull
 
 You can see usage examples by checking the notebook [here](https://github.com/luanleonardo/concave_uhull/blob/main/visual_tests_concave_uhull.ipynb).
 
+# Visual examples
 
+* [Map of points in Brasília, Brazil](data/maps/points_brasilia_brazil.html)
+  ![points_brasilia_brazil.png](data/img/points_brasilia_brazil.png)
+
+* [Map of points in Pará, Brazil](data/maps/points_para_brazil.html)
+  ![points_para_brazil.png](data/img/points_para_brazil.png)
+
+* [Map of points in Rio de Janeiro, Brazil](data/maps/points_rio_de_janeiro_brazil.html)
+  ![points_rio_de_janeiro_brazil.png](data/img/points_rio_de_janeiro_brazil.png)
