@@ -20,6 +20,8 @@ Visual examples
 
 * [Interactive map of points in Rio de Janeiro, Brazil](data/maps/points_rio_de_janeiro_brazil.html)
   ![points_rio_de_janeiro_brazil.png](data/img/points_rio_de_janeiro_brazil.png)
+ 
+* The code that generated the above interactive maps using `concave_uhull` to get the concave hull of the points can be found [here](https://github.com/luanleonardo/concave_uhull/blob/main/visual_test_concave_hull.ipynb).
 
 Installation
 ------------
@@ -28,8 +30,8 @@ Installation
 pip install concave_uhull
 ```
 
-Usage
+Quickstart
 -----
+TODO
 
-The code that generated the above interactive maps using `concave_uhull` to get the concave hull of the points can be found [here](https://github.com/luanleonardo/concave_uhull/blob/main/visual_test_concave_hull.ipynb).
 
