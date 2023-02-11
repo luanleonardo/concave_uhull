@@ -31,5 +31,5 @@ pip install concave_uhull
 Usage
 -----
 
-The code that generated the above interactive maps using `concave_uhull` to get the concave hull of the points can be found [here](https://github.com/luanleonardo/concave_uhull/blob/main/visual_tests_concave_uhull.ipynb).
+The code that generated the above interactive maps using `concave_uhull` to get the concave hull of the points can be found [here](https://github.com/luanleonardo/concave_uhull/blob/main/visual_test_concave_hull.ipynb).
 
