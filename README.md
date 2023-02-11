@@ -15,7 +15,7 @@ pip install concave_uhull
 ```
 # Usage
 
-You can see usage examples by checking the notebook [here](https://github.com/luanleonardo/concave_uhull/blob/main/visual_tests_concave_uhull.ipynb).
+You can see usage examples by checking the notebook [here](https://github.com/luanleonardo/concave_uhull/blob/main/visual_test_concave_hull.ipynb).
 
 # Visual examples
 
