@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "concave_uhull"
-version = "0.2.2"
+version = "0.2.3"
 description = "A simple (but not simpler) algorithm for concave hull of 2D point sets using an alpha shape algorithm."
-readme = "README_pypi.rst"
+readme = "README.md"
 authors = ["Luan <llvdmoraes@gmail.com>"]
 repository = "https://github.com/luanleonardo/concave_uhull"
 homepage = "https://luanleonardo.github.io/concave_uhull/"
