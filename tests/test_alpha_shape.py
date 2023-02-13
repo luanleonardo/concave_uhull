@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from concave_uhull.alpha_shape import get_alpha_shape_polygons
-from concave_uhull.utils.geometry import area_of_polygon, euclidean_distance
+from concave_uhull.geometry import area_of_polygon, euclidean_distance
 
 
 @pytest.fixture
