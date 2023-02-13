@@ -13,7 +13,7 @@ Note
 
 ### Installation
 
-``` {.bash}
+```bash
 pip install concave_uhull
 ```
 
@@ -29,7 +29,7 @@ Suppose we want to find a concave hull for the following set of points:
 We can find the `polygons` that form the concave hull of the set as
 follows:
 
-``` {.python}
+```python
 from concave_uhull.alpha_shape import get_alpha_shape_polygons
 
 points = [
@@ -69,7 +69,7 @@ to represent the concave hull and consequently we obtain a less concave
 As an example, notice that by doubling the default value of alpha, we
 get the convex hull:
 
-``` {.python}
+```python
 from concave_uhull.alpha_shape import get_alpha_shape_polygons
 
 points = [
@@ -90,7 +90,7 @@ polygons = get_alpha_shape_polygons(coordinates_points=points, alpha=2 * 1.5)
 As another example let\'s define a distance function and get concave
 hull with it.
 
-``` {.python}
+```python
 from concave_uhull.alpha_shape import get_alpha_shape_polygons
 
 
