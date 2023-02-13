@@ -119,12 +119,15 @@ Concave hull for geographic coordinate points
 ----------------------------------------
 
 * `Interactive map of points in Brasília, Brazil <data/maps/points_brasilia_brazil.html>`_
+
 .. image:: data/img/points_brasilia_brazil.png
 
 * `Interactive map of points in Pará, Brazil <points_para_brazil.png](data/img/points_para_brazil.png>`_
+
 .. image:: data/img/points_para_brazil.png
 
 * `Interactive map of points in Rio de Janeiro, Brazil <data/maps/points_rio_de_janeiro_brazil.html>`_
+
 .. image:: data/img/points_rio_de_janeiro_brazil.png
 
 * You can find the code to generate the interactive maps `here <data/ipynb/concave_hull_geographic_coordinates.ipynb>`_.
