@@ -65,5 +65,5 @@ def test_area_of_polygon(coordinates_points):
     # compute area of square polygon
     square_area = area_of_polygon(square_polygon_vertices)
 
-    # with points of a square it is only possible to obtain two triangles
+    # area of a square of sides 1.0
     assert square_area == 1.0
