@@ -125,7 +125,7 @@ Concave hull for geographic coordinate points
 
 ![image](data/img/points_brasilia_brazil.png)
 
--   [Interactive map of points in Pará, Brazil](data/img/points_para_brazil.png)
+-   [Interactive map of points in Pará, Brazil](data/maps/points_para_brazil.html)
 
 ![image](data/img/points_para_brazil.png)
 
